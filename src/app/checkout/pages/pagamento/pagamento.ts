@@ -4,8 +4,9 @@ import type { Produto } from '../../models/produto';
 import { PagamentoPix } from '../../components/pagamento-pix/pagamento-pix';
 import { Router } from '@angular/router';
 import { CheckoutEstado, type FormaPagamento } from '../../checkout-estado';
+import { FormularioCartao } from '../../components/formulario-cartao/formulario-cartao';
 @Component({
-  imports: [ResumoProduto, PagamentoPix],
+  imports: [ResumoProduto, PagamentoPix, FormularioCartao],
   selector: 'app-pagamento',
   styleUrl: './pagamento.scss',
   templateUrl: './pagamento.html',
@@ -37,6 +38,17 @@ export class Pagamento {
 
   protected concluirPix(): void {
     this.estado.registrarAprovacao(this.produto, 'pix');
+    void this.router.navigateByUrl('/sucesso');
+  }
+
+  protected concluirCartao(): void {
+    const forma = this.formaSelecionada();
+
+    if (forma !== 'credito' && forma !== 'debito') {
+      return;
+    }
+
+    this.estado.registrarAprovacao(this.produto, forma);
     void this.router.navigateByUrl('/sucesso');
   }
 }
