@@ -17,5 +17,7 @@
   </div>
 </fieldset>
 @if (formaSelecionada() === 'pix') {
-  <app-pagamento-pix (conclusaoSolicitada)="concluirPix()" />
+<app-pagamento-pix (conclusaoSolicitada)="concluirPix()" />
+} @else if (formaSelecionada() === 'credito' || formaSelecionada() === 'debito') {
+<app-formulario-cartao (pagamentoSolicitado)="concluirCartao()" />
 }

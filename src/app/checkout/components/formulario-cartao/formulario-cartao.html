@@ -1,0 +1,61 @@
+<form [formGroup]="formulario" (ngSubmit)="enviar()" novalidate class="mt-3">
+  <div class="mb-3">
+    <label for="cartao-numero" class="form-label">Número do cartão</label>
+    <input id="cartao-numero" class="form-control" type="text" inputmode="numeric" autocomplete="cc-number"
+      formControlName="numero"
+      [class.is-invalid]="formulario.controls.numero.touched && formulario.controls.numero.invalid"
+      aria-describedby="erro-numero" />
+    <div id="erro-numero" class="invalid-feedback">
+      @if (formulario.controls.numero.hasError('required')) {
+      Informe o número do cartão.
+      } @else if (formulario.controls.numero.hasError('numeroCartao')) {
+      Confira os dígitos do número do cartão.
+      }
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="cartao-nome" class="form-label">Nome impresso no cartão</label>
+    <input id="cartao-nome" class="form-control" type="text" autocomplete="cc-name" formControlName="nome"
+      [class.is-invalid]="formulario.controls.nome.touched && formulario.controls.nome.invalid"
+      aria-describedby="erro-nome" />
+    <div id="erro-nome" class="invalid-feedback">
+      Digite o nome como aparece no cartão.
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-sm-6 mb-3">
+      <label for="cartao-validade" class="form-label">Validade (MM/AA)</label>
+      <input id="cartao-validade" class="form-control" type="text" autocomplete="cc-exp" placeholder="MM/AA"
+        formControlName="validade"
+        [class.is-invalid]="formulario.controls.validade.touched && formulario.controls.validade.invalid"
+        aria-describedby="erro-validade" />
+      <div id="erro-validade" class="invalid-feedback">
+        @if (formulario.controls.validade.hasError('required')) {
+        Informe a validade do cartão.
+        } @else if (formulario.controls.validade.hasError('formatoValidade')) {
+        Use o formato MM/AA, com mês entre 01 e 12.
+        } @else if (formulario.controls.validade.hasError('cartaoVencido')) {
+        O cartão está vencido.
+        }
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 mb-3">
+      <label for="cartao-cvv" class="form-label">Código de segurança (CVV)</label>
+      <input id="cartao-cvv" class="form-control" type="password" inputmode="numeric" autocomplete="cc-csc"
+        formControlName="cvv" [class.is-invalid]="formulario.controls.cvv.touched && formulario.controls.cvv.invalid"
+        aria-describedby="erro-cvv" />
+      <div id="erro-cvv" class="invalid-feedback">
+        @if (formulario.controls.cvv.hasError('required')) {
+        Informe o código de segurança.
+        } @else if (formulario.controls.cvv.hasError('pattern')) {
+        Use 3 ou 4 dígitos no código de segurança.
+        }
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Pagar</button>
+</form>
