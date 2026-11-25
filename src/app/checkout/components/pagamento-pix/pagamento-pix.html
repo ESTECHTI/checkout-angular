@@ -1,0 +1,9 @@
+<section class="border rounded p-3 mt-3" aria-labelledby="titulo-pix">
+  <h3 id="titulo-pix" class="h5">Pagamento via Pix</h3>
+
+  <label for="codigo-pix" class="form-label">Código Pix de demonstração</label>
+  <input id="codigo-pix" class="form-control font-monospace" type="text" value="PIX-DEMO-CHECKOUT-001" readonly />
+  <button type="button" class="btn btn-primary mt-3" (click)="conclusaoSolicitada.emit()">
+    Concluir pagamento
+  </button>
+</section>

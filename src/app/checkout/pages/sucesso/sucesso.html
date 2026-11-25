@@ -1,0 +1,6 @@
+@if (comprovante(); as pagamento) {
+  <h2 class="h4">Pagamento concluído</h2>
+  <p>Meio de pagamento: <strong>{{ rotulos[pagamento.forma] }}</strong></p>
+
+  <app-resumo-produto [produto]="pagamento.produto" />
+}
