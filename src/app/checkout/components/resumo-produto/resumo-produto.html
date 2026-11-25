@@ -1,1 +1,10 @@
-<h3 class="h5">Resumo do produto</h3>
+<section class="card">
+  <div class="card-body">
+    <h3 class="h5">Resumo do produto</h3>
+    <p class="fw-semibold mb-1">{{ produto().nome }}</p>
+    <p class="text-body-secondary mb-2">{{ produto().descricao }}</p>
+    <p class="fw-bold mb-0">
+      {{ moeda.format(produto().precoEmCentavos / 100) }}
+    </p>
+  </div>
+</section>
