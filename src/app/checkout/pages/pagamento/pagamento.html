@@ -1,2 +1,21 @@
 <h2 class="h4 mb-3">Pagamento</h2>
 <app-resumo-produto [produto]="produto"/>
+<fieldset class="mt-4">
+  <legend class="h5 mb-3">Forma de pagamento</legend>
+
+  <div class="d-flex flex-column flex-md-row gap-3">
+    @for (forma of formasPagamento; track forma.valor) {
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="formaPagamento" [id]="'forma-' + forma.valor"
+        [value]="forma.valor" [checked]="formaSelecionada() === forma.valor"
+        (change)="formaSelecionada.set(forma.valor)" />
+      <label class="form-check-label" [for]="'forma-' + forma.valor">
+        {{ forma.rotulo }}
+      </label>
+    </div>
+    }
+  </div>
+</fieldset>
+@if (formaSelecionada() === 'pix') {
+  <app-pagamento-pix (conclusaoSolicitada)="concluirPix()" />
+}
