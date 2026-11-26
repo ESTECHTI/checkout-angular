@@ -1,6 +1,6 @@
 <section class="summary surface">
   <h3>Resumo do pedido</h3>
-  <div class="plan"><span class="plan-icon" aria-hidden="true">⊞</span><div><strong>{{ produto().nome }}</strong><small>{{ produto().descricao }}</small></div></div>
+  <div class="plan"><span class="plan-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 22 22"><rect x="0" y="0" width="9.5" height="9.5" rx="2" fill="#584bd4" /><rect x="12.5" y="0" width="9.5" height="9.5" rx="2" fill="#584bd4" /><rect x="0" y="12.5" width="9.5" height="9.5" rx="2" fill="#584bd4" /><rect x="12.5" y="12.5" width="9.5" height="9.5" rx="2" fill="#584bd4" /></svg></span><div><strong>{{ produto().nome }}</strong><small>{{ produto().descricao }}</small></div></div>
   <ul class="benefits"><li>Páginas e tarefas ilimitadas</li><li>Relatórios e automações</li><li>Suporte prioritário</li></ul>
   <dl class="prices"><div><dt>Subtotal</dt><dd>{{ moeda.format(produto().precoEmCentavos / 100) }}</dd></div><div><dt>Taxas</dt><dd>{{ moeda.format(0) }}</dd></div></dl>
   <p class="total"><span>Total hoje</span><strong>{{ moeda.format(produto().precoEmCentavos / 100) }}</strong></p>

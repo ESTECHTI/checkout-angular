@@ -37,13 +37,6 @@
   margin-top: 2px;
 }
 .error-box p { margin: 2px 0 0; }
-.receipt .plan-icon i {
-  width: 11px;
-  height: 11px;
-  background: var(--violet);
-  box-shadow: 13px 0 var(--violet), 0 13px var(--violet), 13px 13px var(--violet);
-  transform: translate(-6.5px, -6.5px);
-}
 .prices { display: grid; gap: 8px; }
 .prices dd { font-weight: 600; }
 .actions a span { margin-right: 6px; }

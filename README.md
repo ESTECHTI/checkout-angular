@@ -19,11 +19,11 @@ Abra http://localhost:4200. A aplicação redireciona para `/pagamento`.
 
 Use dados fictícios. Para os cartões abaixo, preencha o nome com `Ana Silva`, informe uma validade futura no formato `MM/AA` e use `012` como CVV.
 
-| Meio              | Dados de demonstração                                 | Resultado esperado                                                                            |
-| ----------------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| Crédito ou débito | `4242 4242 4242 4242`                                 | A tela de sucesso mostra o produto, o preço e o meio escolhido.                               |
+| Meio              | Dados de demonstração                                 | Resultado esperado                                                              |
+| ----------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Crédito ou débito | `4242 4242 4242 4242`                                 | A tela de sucesso mostra o produto, o preço e o meio escolhido.                 |
 | Crédito ou débito | `4000 0000 0000 0002`                                 | A tela de erro oferece as ações **Tentar novamente** e **Escolher outro meio**. |
-| Pix               | Selecione **Pix** e clique em **Concluir pagamento**. | A aplicação exibe o comprovante da simulação.                                                 |
+| Pix               | Selecione **Pix** e clique em **Concluir pagamento**. | A aplicação exibe o comprovante da simulação.                                   |
 
 Para testar a recuperação de uma recusa, escolha débito e use o segundo cartão. **Tentar novamente** reabre o formulário vazio com débito selecionado. **Escolher outro meio** permite voltar, selecionar Pix e concluir a compra.
 
