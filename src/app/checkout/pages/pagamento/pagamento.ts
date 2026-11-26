@@ -2,8 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { ResumoProduto } from '../../components/resumo-produto/resumo-produto';
 import type { Produto } from '../../models/produto';
 import { PagamentoPix } from '../../components/pagamento-pix/pagamento-pix';
-import { Router } from '@angular/router';
-import { CheckoutEstado, type FormaPagamento } from '../../checkout-estado';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CheckoutEstado, type FormaPagamento, type ResultadoCartao } from '../../checkout-estado';
 import { FormularioCartao } from '../../components/formulario-cartao/formulario-cartao';
 @Component({
   imports: [ResumoProduto, PagamentoPix, FormularioCartao],
@@ -31,9 +31,16 @@ export class Pagamento {
 
   private readonly estado = inject(CheckoutEstado);
   private readonly router = inject(Router);
+  private readonly rota = inject(ActivatedRoute);
 
   constructor() {
     this.estado.iniciarPagamento();
+
+    const forma = this.rota.snapshot.queryParamMap.get('forma');
+
+    if (forma === 'credito' || forma === 'debito') {
+      this.formaSelecionada.set(forma);
+    }
   }
 
   protected concluirPix(): void {
@@ -41,10 +48,16 @@ export class Pagamento {
     void this.router.navigateByUrl('/sucesso');
   }
 
-  protected concluirCartao(): void {
+  protected concluirCartao(resultado: ResultadoCartao): void {
     const forma = this.formaSelecionada();
 
     if (forma !== 'credito' && forma !== 'debito') {
+      return;
+    }
+
+    if (resultado === 'recusado') {
+      this.estado.registrarRecusa(forma);
+      void this.router.navigateByUrl('/erro');
       return;
     }
 
