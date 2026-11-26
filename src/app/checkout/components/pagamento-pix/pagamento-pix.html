@@ -1,9 +1,26 @@
-<section class="border rounded p-3 mt-3" aria-labelledby="titulo-pix">
-  <h3 id="titulo-pix" class="h5">Pagamento via Pix</h3>
-
-  <label for="codigo-pix" class="form-label">Código Pix de demonstração</label>
-  <input id="codigo-pix" class="form-control font-monospace" type="text" value="PIX-DEMO-CHECKOUT-001" readonly />
-  <button type="button" class="btn btn-primary mt-3" (click)="conclusaoSolicitada.emit()">
-    Concluir pagamento
+<section class="pix"><h3 class="section-title">Pague com seu app do banco</h3>
+  <p>Abra a opção Pix e escaneie o QR Code ou use o código abaixo. Depois, conclua o pagamento.</p>
+  <div class="qr-box">
+    <img src="pix-demo.svg" width="144" height="144" alt="QR Code do Pix simulado" />
+  </div>
+  <small class="qr-caption">QR Code simulado · sem valor de pagamento</small>
+  <label for="codigo-pix">Pix copia e cola</label>
+  <div class="pix-input-wrap">
+    <input id="codigo-pix" class="form-control" type="text" [value]="codigo" readonly />
+    <button class="pix-copy-icon" type="button" (click)="copiar()" aria-label="Copiar código Pix">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="9" y="9" width="13" height="13" rx="2" />
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+      </svg>
+    </button>
+  </div>
+  <button class="btn btn-outline-secondary pix-copy-btn" type="button" (click)="copiar()">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="9" y="9" width="13" height="13" rx="2" />
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </svg>
+    Copiar código Pix
   </button>
+  <small class="d-block" role="status">{{ aviso() }}</small>
+  <button class="btn btn-primary concluir" type="button" (click)="conclusaoSolicitada.emit()">→ Concluir pagamento</button>
 </section>

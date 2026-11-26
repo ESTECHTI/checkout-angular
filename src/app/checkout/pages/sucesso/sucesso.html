@@ -1,6 +1,26 @@
 @if (comprovante(); as pagamento) {
-  <h2 class="h4">Pagamento concluído</h2>
-  <p>Meio de pagamento: <strong>{{ rotulos[pagamento.forma] }}</strong></p>
-
-  <app-resumo-produto [produto]="pagamento.produto" />
+  <section class="surface result success" aria-labelledby="titulo-sucesso">
+    <div class="status-icon" aria-hidden="true">✓</div>
+    <h2 id="titulo-sucesso">Pagamento confirmado!</h2>
+    <p>Tudo certo, {{ cliente }}. Sua assinatura está ativa e seu espaço já está pronto para você.</p>
+    <span class="pill">✓ Assinatura ativa</span>
+    <div class="receipt">
+      <div class="plan">
+        <span class="plan-icon" aria-hidden="true"><i></i></span>
+        <div><strong>{{ pagamento.produto.nome }}</strong><small>{{ pagamento.produto.descricao }}</small></div>
+      </div>
+      <dl class="prices">
+        <div><dt>Pedido</dt><dd>#{{ pedido }}</dd></div>
+        <div><dt>Pagamento</dt><dd>{{ descricaoPagamento(pagamento) }}</dd></div>
+        <div><dt>Data</dt><dd>{{ formatarDataHora(pagamento.data) }}</dd></div>
+      </dl>
+      <p class="total"><span>Total pago</span><strong>{{ formatarPreco(pagamento.produto.precoEmCentavos) }}</strong></p>
+    </div>
+    <p class="receipt-email">Enviamos o recibo para<br><strong>{{ email }}</strong></p>
+    <div class="actions">
+      <a routerLink="/pagamento" class="btn btn-primary">→ Acessar meu espaço</a>
+      <button type="button" class="btn btn-outline-secondary" (click)="imprimir()">Ver recibo</button>
+    </div>
+  </section>
+  <p class="renewal-note">Sua próxima renovação será em {{ formatarData(pagamento.proximaRenovacao) }}.</p>
 }

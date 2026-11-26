@@ -1,16 +1,42 @@
-<h2 class="h4">Pagamento recusado</h2>
+<section class="surface result failure" aria-labelledby="titulo-recusa">
+  <div class="status-icon" aria-hidden="true"><span class="exclamacao">!</span></div>
+  <h2 id="titulo-recusa">Não foi possível concluir o pagamento</h2>
+  <p>Não se preocupe: nenhuma cobrança foi realizada e seu pedido continua reservado.</p>
 
-<p>
-  O cartão de demonstração foi recusado na simulação.
-  Você pode tentar com outro cartão ou escolher outra forma de pagamento.
+  <div class="error-box" role="alert">
+    <span class="exclamacao" aria-hidden="true">!</span>
+    <div>
+      <strong>Cartão não autorizado</strong>
+      <p>Seu banco recusou essa transação. Confira os dados e o limite disponível ou use outro meio de pagamento.</p>
+    </div>
+  </div>
+
+  <div class="receipt">
+    <div class="plan">
+      <span class="plan-icon" aria-hidden="true"><i></i></span>
+      <div><strong>{{ produto.nome }}</strong><small>{{ produto.descricao }}</small></div>
+    </div>
+    <dl class="prices">
+      <div><dt>Pedido</dt><dd>#{{ pedido }}</dd></div>
+      <div><dt>Meio usado</dt><dd>{{ formaRecusada() === 'debito' ? 'Débito' : 'Crédito' }} · {{ bandeira }} •••• {{ finalCartao }}</dd></div>
+    </dl>
+    <p class="total"><span>Total a pagar</span><strong>{{ formatarPreco(produto.precoEmCentavos) }}</strong></p>
+  </div>
+
+  <div class="actions">
+    <a class="btn btn-primary" routerLink="/pagamento" [queryParams]="{ forma: formaRecusada() }">
+      <span aria-hidden="true">⟳</span> Tentar novamente
+    </a>
+    <a class="btn btn-outline-secondary" routerLink="/pagamento">Escolher outro meio</a>
+  </div>
+  <small class="hint">Você pode pagar com outro cartão ou escolher Pix.</small>
+</section>
+
+<p class="support-note">
+  <span class="support-label">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </svg>
+    Ainda precisa de ajuda? Fale com a gente
+  </span>
 </p>
-
-<div class="d-flex flex-column flex-sm-row gap-2">
-  <a class="btn btn-primary" routerLink="/pagamento" [queryParams]="{ forma: formaRecusada() }">
-    Tentar novamente
-  </a>
-
-  <a class="btn btn-outline-secondary" routerLink="/pagamento">
-    Escolher outra forma de pagamento
-  </a>
-</div>

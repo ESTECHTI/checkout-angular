@@ -18,7 +18,7 @@ describe('Fluxo de pagamento com Pix', () => {
     pix.click();
     await harness.fixture.whenStable();
 
-    const concluir = tela.querySelector<HTMLButtonElement>('app-pagamento-pix button')!;
+    const concluir = tela.querySelector<HTMLButtonElement>('app-pagamento-pix .concluir')!;
 
     concluir.click();
     await harness.fixture.whenStable();
@@ -27,10 +27,10 @@ describe('Fluxo de pagamento com Pix', () => {
     expect(TestBed.inject(Router).url).toBe('/sucesso');
 
     const comprovante = harness.routeNativeElement!.textContent ?? '';
-    expect(comprovante).toContain('Pagamento concluído');
+    expect(comprovante).toContain('Pagamento confirmado');
     expect(comprovante).toContain('Pix');
-    expect(comprovante).toContain('Teclado compacto');
-    expect(comprovante).toMatch(/R\$\s*129,90/);
+    expect(comprovante).toContain('Nexo Pro');
+    expect(comprovante).toMatch(/R\$\s*79,90/);
   });
 
   it('redireciona para pagamento ao abrir sucesso sem comprovante', async () => {
@@ -67,10 +67,15 @@ describe('Fluxo de pagamento com Pix', () => {
     expect(router.url).toBe('/erro');
 
     const erro = harness.routeNativeElement!;
-    expect(erro.textContent).toContain('Pagamento recusado');
+    expect(erro.textContent).toContain('Cartão não autorizado');
+    expect(erro.querySelector('[role=alert]')?.textContent).toContain(
+      'Seu banco recusou essa transação. Confira os dados e o limite disponível ou use outro meio de pagamento.',
+    );
 
+    expect(erro.textContent).toContain('#NX-10482');
+    expect(erro.textContent).toMatch(/Débito · Visa •••• 0002/);
     const trocarForma = Array.from(erro.querySelectorAll('a')).find(
-      (link) => link.textContent?.trim() === 'Escolher outra forma de pagamento',
+      (link) => link.textContent?.trim() === 'Escolher outro meio',
     );
     expect(trocarForma).toBeDefined();
     trocarForma!.click();
@@ -83,7 +88,7 @@ describe('Fluxo de pagamento com Pix', () => {
     novaTentativa.querySelector<HTMLInputElement>('#forma-pix')!.click();
     await harness.fixture.whenStable();
 
-    novaTentativa.querySelector<HTMLButtonElement>('app-pagamento-pix button')!.click();
+    novaTentativa.querySelector<HTMLButtonElement>('app-pagamento-pix .concluir')!.click();
     await harness.fixture.whenStable();
     harness.detectChanges();
 

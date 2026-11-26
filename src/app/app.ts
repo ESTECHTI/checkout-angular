@@ -1,5 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+
+import { CheckoutEstado } from './checkout/checkout-estado';
 
 @Component({
   imports: [RouterOutlet],
@@ -8,5 +10,5 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.html',
 })
 export class App {
-  protected readonly title = signal('checkout-angular');
+  protected readonly estado = inject(CheckoutEstado);
 }

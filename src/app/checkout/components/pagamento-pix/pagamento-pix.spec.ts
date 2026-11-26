@@ -27,7 +27,7 @@ describe('PagamentoPix', () => {
     });
 
     const tela = fixture.nativeElement as HTMLElement;
-    const botao = tela.querySelector('button')!;
+    const botao = tela.querySelector<HTMLButtonElement>('.concluir')!;
 
     botao.click();
 

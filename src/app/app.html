@@ -1,4 +1,21 @@
-<main class="container py-4">
-  <h1 class="h3 mb-4">Checkout</h1>
+<header class="topbar"><div class="shell brand-row">
+  <span class="brand"><span class="brand-mark" aria-hidden="true">n</span> nexo</span>
+  <span class="secure"><span class="lock" aria-hidden="true"></span> Checkout seguro</span>
+</div></header>
+<main class="shell checkout-main">
+  <h1 class="visually-hidden">Checkout</h1>
+  <ol class="steps" aria-label="Etapas da assinatura">
+    <li class="done">Pedido</li>
+    <li [class.done]="estado.comprovante()" [class.current]="!estado.comprovante()">Pagamento</li>
+    <li [class.done]="estado.comprovante()">Confirmação</li>
+  </ol>
   <router-outlet />
 </main>
+<footer class="shell site-footer">
+  <span>© 2026 Nexo. Todos os direitos reservados.</span>
+  <div class="footer-labels">
+    <span class="help-label">Precisa de ajuda?</span>
+    <span>Privacidade</span>
+    <span>Termos</span>
+  </div>
+</footer>

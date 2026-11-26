@@ -1,6 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, PendingTasks, signal } from '@angular/core';
 import { ResumoProduto } from '../../components/resumo-produto/resumo-produto';
-import type { Produto } from '../../models/produto';
+import { formatarPreco, planoNexo } from '../../models/produto';
 import { PagamentoPix } from '../../components/pagamento-pix/pagamento-pix';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CheckoutEstado, type FormaPagamento, type ResultadoCartao } from '../../checkout-estado';
@@ -12,11 +12,8 @@ import { FormularioCartao } from '../../components/formulario-cartao/formulario-
   templateUrl: './pagamento.html',
 })
 export class Pagamento {
-  protected readonly produto: Produto = {
-    nome: 'Teclado compacto',
-    descricao: 'Teclado USB com layout brasileiro ABNT2',
-    precoEmCentavos: 12990,
-  };
+  protected readonly produto = planoNexo;
+  protected readonly formatarPreco = formatarPreco;
 
   protected readonly formasPagamento: ReadonlyArray<{
     valor: FormaPagamento;
@@ -27,11 +24,16 @@ export class Pagamento {
     { valor: 'pix', rotulo: 'Pix' },
   ];
 
-  protected readonly formaSelecionada = signal<FormaPagamento | null>(null);
+  protected readonly formaSelecionada = signal<FormaPagamento>('credito');
 
   private readonly estado = inject(CheckoutEstado);
   private readonly router = inject(Router);
   private readonly rota = inject(ActivatedRoute);
+
+  protected readonly processando = signal(false);
+  protected readonly finalCartaoEmProcessamento = signal<string | undefined>(undefined);
+  private readonly tarefas = inject(PendingTasks);
+  private readonly ciclo = inject(DestroyRef);
 
   constructor() {
     this.estado.iniciarPagamento();
@@ -43,25 +45,37 @@ export class Pagamento {
     }
   }
 
-  protected concluirPix(): void {
-    this.estado.registrarAprovacao(this.produto, 'pix');
-    void this.router.navigateByUrl('/sucesso');
+  protected meioEmProcessamento(): string {
+    const forma = this.formaSelecionada();
+    if (forma === 'pix') return 'Pix';
+    const rotulo = forma === 'debito' ? 'Débito' : 'Crédito';
+    const final = this.finalCartaoEmProcessamento();
+    return final ? `${rotulo} •••• ${final}` : rotulo;
   }
 
-  protected concluirCartao(resultado: ResultadoCartao): void {
+  protected concluirPix(): void {
+    this.processar('pix', 'aprovado');
+  }
+
+  protected concluirCartao(resultado: ResultadoCartao, finalCartao?: string): void {
     const forma = this.formaSelecionada();
+    this.finalCartaoEmProcessamento.set(finalCartao);
+    if (forma !== 'pix') this.processar(forma, resultado, finalCartao);
+  }
 
-    if (forma !== 'credito' && forma !== 'debito') {
-      return;
-    }
-
-    if (resultado === 'recusado') {
-      this.estado.registrarRecusa(forma);
-      void this.router.navigateByUrl('/erro');
-      return;
-    }
-
-    this.estado.registrarAprovacao(this.produto, forma);
-    void this.router.navigateByUrl('/sucesso');
+  private processar(forma: FormaPagamento, resultado: ResultadoCartao, finalCartao?: string): void {
+    if (this.processando()) return;
+    this.processando.set(true);
+    this.tarefas.run(async () => {
+      await new Promise<void>(resolve => setTimeout(resolve, 650));
+      if (this.ciclo.destroyed) return;
+      if (forma !== 'pix' && resultado === 'recusado') {
+        this.estado.registrarRecusa(forma);
+        await this.router.navigateByUrl('/erro');
+      } else {
+        this.estado.registrarAprovacao(this.produto, forma, finalCartao);
+        await this.router.navigateByUrl('/sucesso');
+      }
+    });
   }
 }
