@@ -1,0 +1,55 @@
+.qr-box {
+  width: fit-content;
+  margin: 16px auto 8px;
+  padding: 14px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.qr-box img {
+  margin: 0;
+}
+
+.pix-input-wrap {
+  position: relative;
+  margin-top: 6px;
+}
+
+.pix-input-wrap .form-control {
+  padding-right: 42px;
+  background: #f8f9fc;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.pix-copy-icon {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--violet);
+  cursor: pointer;
+}
+
+.pix-copy-icon:hover {
+  background: var(--lavender);
+}
+
+.pix-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pix-copy-btn svg {
+  color: var(--violet);
+}

@@ -1,0 +1,5 @@
+.prices { display: grid; gap: 8px; }
+.prices dd { font-weight: 600; }
+.receipt-email { font-size: .8rem; color: var(--muted); margin: 0 0 18px; }
+.receipt-email strong { color: var(--ink); font-weight: 600; }
+.renewal-note { text-align: center; font-size: .78rem; color: var(--muted); margin: -16px 0 12px; }

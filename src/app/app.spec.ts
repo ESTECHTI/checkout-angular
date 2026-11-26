@@ -23,4 +23,15 @@ describe('App', () => {
 
     expect(heading?.textContent?.trim()).toBe('Checkout');
   });
+
+  it('exibe os textos de ajuda, privacidade e termos no rodapé', async () => {
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+
+    const rodape = (fixture.nativeElement as HTMLElement).querySelector('footer.site-footer')!;
+    expect(rodape.textContent).toContain('Precisa de ajuda?');
+    expect(rodape.textContent).toContain('Privacidade');
+    expect(rodape.textContent).toContain('Termos');
+    expect(rodape.querySelector('a, [role="link"]')).toBeNull();
+  });
 });

@@ -1,10 +1,8 @@
-<section class="card">
-  <div class="card-body">
-    <h3 class="h5">Resumo do produto</h3>
-    <p class="fw-semibold mb-1">{{ produto().nome }}</p>
-    <p class="text-body-secondary mb-2">{{ produto().descricao }}</p>
-    <p class="fw-bold mb-0">
-      {{ moeda.format(produto().precoEmCentavos / 100) }}
-    </p>
-  </div>
+<section class="summary surface">
+  <h3>Resumo do pedido</h3>
+  <div class="plan"><span class="plan-icon" aria-hidden="true">⊞</span><div><strong>{{ produto().nome }}</strong><small>{{ produto().descricao }}</small></div></div>
+  <ul class="benefits"><li>Páginas e tarefas ilimitadas</li><li>Relatórios e automações</li><li>Suporte prioritário</li></ul>
+  <dl class="prices"><div><dt>Subtotal</dt><dd>{{ moeda.format(produto().precoEmCentavos / 100) }}</dd></div><div><dt>Taxas</dt><dd>{{ moeda.format(0) }}</dd></div></dl>
+  <p class="total"><span>Total hoje</span><strong>{{ moeda.format(produto().precoEmCentavos / 100) }}</strong></p>
+  <small class="muted">Renovação mensal. Cancele quando quiser.</small>
 </section>
