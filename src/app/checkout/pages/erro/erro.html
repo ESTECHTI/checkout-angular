@@ -1,0 +1,16 @@
+<h2 class="h4">Pagamento recusado</h2>
+
+<p>
+  O cartão de demonstração foi recusado na simulação.
+  Você pode tentar com outro cartão ou escolher outra forma de pagamento.
+</p>
+
+<div class="d-flex flex-column flex-sm-row gap-2">
+  <a class="btn btn-primary" routerLink="/pagamento" [queryParams]="{ forma: formaRecusada() }">
+    Tentar novamente
+  </a>
+
+  <a class="btn btn-outline-secondary" routerLink="/pagamento">
+    Escolher outra forma de pagamento
+  </a>
+</div>

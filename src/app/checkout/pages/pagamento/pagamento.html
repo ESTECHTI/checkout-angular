@@ -19,5 +19,5 @@
 @if (formaSelecionada() === 'pix') {
 <app-pagamento-pix (conclusaoSolicitada)="concluirPix()" />
 } @else if (formaSelecionada() === 'credito' || formaSelecionada() === 'debito') {
-<app-formulario-cartao (pagamentoSolicitado)="concluirCartao()" />
+<app-formulario-cartao (pagamentoSolicitado)="concluirCartao($event)" />
 }

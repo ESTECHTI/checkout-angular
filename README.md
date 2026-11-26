@@ -1,59 +1,46 @@
-# CheckoutAngular
+# Checkout em Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.3.0.
+Checkout responsivo desenvolvido para o desafio técnico de frontend da NTConsult. A aplicação simula pagamentos por cartão de crédito, cartão de débito e Pix, com telas de pagamento, sucesso e erro.
 
-## Development server
+## Executar localmente
 
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Use Node.js 24.15 ou superior da linha 24.x e npm.
 
 ```bash
-ng generate component component-name
+git clone https://github.com/ESTECHTI/checkout-angular.git
+cd checkout-angular
+npm ci
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Abra http://localhost:4200. A aplicação redireciona para `/pagamento`.
+
+## Experimentar o checkout
+
+Use dados fictícios. Para os cartões abaixo, preencha o nome com `Ana Silva`, informe uma validade futura no formato `MM/AA` e use `012` como CVV.
+
+| Meio              | Dados de demonstração                                 | Resultado esperado                                                                            |
+| ----------------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Crédito ou débito | `4242 4242 4242 4242`                                 | A tela de sucesso mostra o produto, o preço e o meio escolhido.                               |
+| Crédito ou débito | `4000 0000 0000 0002`                                 | A tela de erro oferece as ações **Tentar novamente** e **Escolher outra forma de pagamento**. |
+| Pix               | Selecione **Pix** e clique em **Concluir pagamento**. | A aplicação exibe o comprovante da simulação.                                                 |
+
+Para testar a recuperação de uma recusa, escolha débito e use o segundo cartão. **Tentar novamente** reabre o formulário vazio com débito selecionado. **Escolher outra forma de pagamento** permite voltar, selecionar Pix e concluir a compra.
+
+## Decisões técnicas e de escopo
+
+- **Angular 22.3 e Bootstrap.** O layout usa Bootstrap para organizar campos, mensagens de validação e ações em telas de celular e desktop.
+- **Componentização.** As páginas coordenam a navegação. O resumo do produto é compartilhado entre pagamento e sucesso. Crédito e débito usam o mesmo formulário, e o Pix tem um componente próprio.
+- **Reactive Forms.** O formulário valida os campos obrigatórios, o número do cartão pelo algoritmo de Luhn, a validade até o fim do mês informado e o CVV de três ou quatro dígitos.
+- **Estado em memória com Signals.** O checkout compartilha o resultado da tentativa entre as páginas. Ao atualizar ou acessar diretamente `/sucesso` ou `/erro` sem o resultado correspondente, um guard redireciona para `/pagamento`.
+- **Simulação reproduzível.** Um número fictício específico produz a recusa para facilitar a avaliação do fluxo de recuperação. O código Pix também é demonstrativo.
+- **Fora do escopo.** Backend, gateway real e persistência de transações ficaram de fora porque o desafio pede uma simulação no frontend. O projeto roda localmente apenas com as dependências npm.
+
+## Testes e build
 
 ```bash
-ng generate --help
+npm run test:ci
+npm run build:ci
 ```
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+A suíte com Vitest cobre componentes, validadores e navegação, incluindo a recuperação de uma recusa por cartão seguida de aprovação por Pix. O GitHub Actions executa os testes e o build de produção nos pull requests para `main` e nos pushes nessa branch.

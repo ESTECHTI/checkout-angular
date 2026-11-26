@@ -2,6 +2,7 @@ import { Component, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { validarValidadeCartao } from './validade-cartao';
 import { validarNumeroCartao } from './numero-cartao';
+import type { ResultadoCartao } from '../../checkout-estado';
 
 @Component({
   selector: 'app-formulario-cartao',
@@ -10,7 +11,7 @@ import { validarNumeroCartao } from './numero-cartao';
   styleUrl: './formulario-cartao.scss',
 })
 export class FormularioCartao {
-  readonly pagamentoSolicitado = output<void>();
+  readonly pagamentoSolicitado = output<ResultadoCartao>();
 
   protected readonly formulario = new FormGroup({
     numero: new FormControl('', {
@@ -38,6 +39,9 @@ export class FormularioCartao {
       return;
     }
 
-    this.pagamentoSolicitado.emit();
+    const numero = this.formulario.controls.numero.value.replace(/ /g, '');
+    const resultado = numero === '4000000000000002' ? 'recusado' : 'aprovado';
+
+    this.pagamentoSolicitado.emit(resultado);
   }
 }
